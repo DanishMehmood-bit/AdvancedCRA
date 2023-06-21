@@ -1,0 +1,1 @@
+require("./advanced-cra-bundle.js").main();
