@@ -4,10 +4,8 @@
     "private": true,
     "main": "cliApp/bin/advanced-cra.js",
     "repository": {
-        "url": "https://github.com/iTwin/create-itwin-studio-app",
+        "url": "https://github.com/DanishMehmood-bit/AdvancedCRA",
         "type": "git"
-    },
-    "devDependencies": {
     },
     "os": [
         "win32"
