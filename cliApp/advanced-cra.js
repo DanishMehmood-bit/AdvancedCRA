@@ -83,5 +83,5 @@ export const main = async () => {
 
   const resolvedArgs = await resolveArgs(rawArgs);
 
-  executeCmd(`npx create-react-app ${resolvedArgs.name} --template file:../advancedcra/craTemplate`);
+  executeCmd(`npx create-react-app ${resolvedArgs.name} --template file:../FunProjects/AdvancedCRA/craTemplate`);
 }

@@ -1,30 +1,22 @@
 {
-  "name": "advanced-cra",
-  "version": "0.0.1",
-  "description": "CLI app which creates react-app using cra and add additional functionality as you wish.",
-  "main": "bin/advanced-cra.js",
-  "bin": {
-    "advanced-cra": "bin/advanced-cra.js"
-  },
-  "scripts": {
-    "build": "node esbuild.mjs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DanishMehmood-bit/AdvancedCRA.git"
-  },
-  "keywords": [
-    "advancedcra"
-  ],
-  "author": "Danish Mehmood",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DanishMehmood-bit/AdvancedCRA/issues"
-  },
-  "homepage": "https://github.com/DanishMehmood-bit/AdvancedCRA#readme",
-  "dependencies": {
-    "esbuild": "^0.18.6",
-    "prompts": "^2.4.2",
-    "yargs": "^17.7.2"
-  }
+    "name": "advanced-cra-monorepo",
+    "version": "0.1.0",
+    "private": true,
+    "main": "cliApp/bin/advanced-cra.js",
+    "repository": {
+        "url": "https://github.com/iTwin/create-itwin-studio-app",
+        "type": "git"
+    },
+    "devDependencies": {
+    },
+    "os": [
+        "win32"
+    ],
+    "engines": {
+        "node": ">=16.0"
+    },
+    "scripts": {
+        "build": "pnpm -r build"
+    },
+    "packageManager": "^pnpm@7.0.0"
 }
