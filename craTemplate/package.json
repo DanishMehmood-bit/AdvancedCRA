@@ -9,7 +9,7 @@
   "description": "Advanced template for CRA",
   "license": "MIT",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "files": [
     "template",
