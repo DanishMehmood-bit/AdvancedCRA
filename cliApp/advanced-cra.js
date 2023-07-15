@@ -1,6 +1,7 @@
 #!/usr/bin/env mode
 import * as yargs from "yargs";
 import * as prompts from "prompts";
+import * as path from "path";
 import { exec } from "child_process";
 
 const additionalOpts = [
@@ -83,5 +84,6 @@ export const main = async () => {
 
   const resolvedArgs = await resolveArgs(rawArgs);
 
-  executeCmd(`npx create-react-app ${resolvedArgs.name} --template file:../FunProjects/AdvancedCRA/craTemplate`);
+  const templatePath = path.join(__dirname, "..", "craTemplate");
+  executeCmd(`npx create-react-app ${resolvedArgs.name} --template file:${templatePath}`);
 }
