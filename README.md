@@ -1,11 +1,14 @@
 # AdvancedCRA
+A CLI app which creates the Create React App (CRA) and adds user specific custom functionality. Currently, the following custom functionalities are available:
+
+- Basic
+- More functionalities will be added in the future.
 
 ## Setting things up
 - pnpm i to install dependencies
 - pnpm build to build dependencies
 
 ## Locally testing
-Make sure the path of the pkg is correct in ```cliApp/advanced-cra.js```, for now we need to set the path relative to the installing directory
 
 We can install the template locally using this command:
 ```
