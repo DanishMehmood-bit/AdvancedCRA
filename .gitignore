@@ -2,4 +2,5 @@
 node_modules/
 
 # production
-cliApp/bin/advanced-cra-bundle.js
+cliApp/bin/
+!cliApp/bin/advanced-cra.js

@@ -2,14 +2,14 @@
 import * as yargs from "yargs";
 import * as prompts from "prompts";
 import * as path from "path";
+import * as fs from "fs";
+import * as fse from "fs-extra";
 import { exec } from "child_process";
+import { basic } from "./appReturns";
 
+const tempDirName = "advancedCRATemplate";
 const additionalOpts = [
-  { title: "TestOpt1", value: "1" },
-  { title: "TestOpt2", value: "2" },
-  { title: "TestOpt3", value: "3" },
-  { title: "TestOpt4", value: "4" },
-  { title: "TestOpt5", value: "5" },
+  { title: "coming soon", value: "1" },
 ];
 
 const handleCancel = () => {
@@ -51,14 +51,49 @@ const resolveArgs = async (args) => {
   return args;
 }
 
-const executeCmd = (cmd) => {
-  exec(cmd, function (error, stdout) {
-    console.log("stdout", stdout);
+const executeCmd = async (cmd, showOutput = true) => {
+  await new Promise((resolve) => exec(cmd, function (error, stdout) {
+    if (showOutput)
+      console.log("stdout", stdout);
 
     if (error !== null) {
       console.log("exec error", error);
     }
+
+    resolve();
+  }));
+}
+
+const copyTemplate = async () => {
+  const templateDir = path.join(__dirname, "..", "craTemplate");
+  const target = path.join(process.cwd(), tempDirName);
+  return fse.copy(templateDir, target);
+}
+
+const additionals = async (args) => {
+  let knownVariables = {
+    AppReturn: JSON.stringify(basic.appReturn)
+  };
+  const appPath = path.join(process.cwd(), `${tempDirName}/template/src/App.tsx`);
+  const app = await fs.promises.readFile(appPath, { encoding: "utf-8" });
+
+  // If no additional functionality is selected
+  // if (args.additionals.length === 0) {
+  //   knownVariables = {
+  //     AppReturn: JSON.stringify(basic.appReturn)
+  //   }
+  // }
+
+  let appStringify = JSON.stringify(app);
+  appStringify = appStringify.replace(/\{\{([^}]*)\}\}/g, (r, i) => {
+    if (knownVariables.hasOwnProperty(i)) {
+      return knownVariables[i].slice(1, -1);
+    } else {
+      console.warn(`Warning: Variable ${i} is not a known variable.`);
+      return "";
+    }
   });
+  await fs.promises.writeFile(appPath, JSON.parse(appStringify));
 }
 
 export const main = async () => {
@@ -84,6 +119,16 @@ export const main = async () => {
 
   const resolvedArgs = await resolveArgs(rawArgs);
 
-  const templatePath = path.join(__dirname, "..", "craTemplate");
-  executeCmd(`npx create-react-app ${resolvedArgs.name} --template file:${templatePath}`);
+  console.log("Copying template");
+  await copyTemplate();
+
+  try {
+    await additionals(resolvedArgs);
+    
+    console.log("Installing template and dependencies");
+    const templatePath = path.join(process.cwd(), tempDirName);
+    await executeCmd(`npx create-react-app ${resolvedArgs.name} --template file:${templatePath}`);
+  } catch(e) {}
+  
+  executeCmd(`rmdir /s /Q ${tempDirName}`, false);
 }
